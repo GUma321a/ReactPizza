@@ -7,6 +7,10 @@ body {
   background-color: $background;
 }
 
+ul{
+  padding: 0;
+}
+
 .wrapper {
   width: calc(100vw - 100px);
   height: 100%;
