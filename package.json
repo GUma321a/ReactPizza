@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "react-content-loader": "^6.2.0",
+    "react-router-dom": "^6.4.2",
     "sass": "^1.55.0"
   }
 }
