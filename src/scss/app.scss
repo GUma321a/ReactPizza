@@ -18,7 +18,13 @@ ul{
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
+
+  @media (max-width: 480px) {
+    width: calc(100vw - 50px);
+  }
 }
+
+
 
 .content {
   padding: 40px 0;
@@ -28,16 +34,37 @@ ul{
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+
+    @media (max-width: 1380px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 1085px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 780px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 1000px) {
+      flex-direction: column-reverse;
+    }
   }
+}
+
+.content__cart{
+  display: block;
 }
 
 .container {
