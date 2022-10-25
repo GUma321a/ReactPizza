@@ -1,6 +1,11 @@
+import React from 'react'
+import { SearchValue } from '../../App';
+
 import s from './search.module.scss';
 
-function Search({ searchValue, setSearchValue }) {
+function Search() {
+  const { searchValue, setSearchValue } = React.useContext(SearchValue);
+
   return (
     <div className={s.root}>
       <input className={s.search} onChange={(e) => setSearchValue(e.target.value)} value={searchValue} type="text" placeholder="Пошук піцци..." />
