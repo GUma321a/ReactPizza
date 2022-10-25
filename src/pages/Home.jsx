@@ -4,23 +4,25 @@ import Sort from '../Components/Sort';
 import Categories from '../Components/Categories';
 import PizzaBlock from '../Components/PizzaBlock';
 import SkeletonPizza from '../Components/PizzaBlock/SkeletonPizza';
+import Pagination from '../Components/Pagination/Pagination';
 
-function Home() {
+function Home({ searchValue }) {
   let [items, setItems] = useState([]);
   let [loaded, setLoaded] = useState(true);
-
   let [activeCategories, setActiveCategories] = useState(0);
+  let [currentPage, setCurrentPage] = useState(1);
   let [selectName, setSelectName] = useState({
-    name: 'популярності', 
-    sortProperty:'rating',
+    name: 'популярності',
+    sortProperty: 'rating',
   });
 
-  let sortBy = selectName.sortProperty.replace('-', '')
+  let sortBy = selectName.sortProperty.replace('-', '');
   let order = selectName.sortProperty.includes('-') ? 'desc' : 'asc';
-  let category = activeCategories>0 ? `category=${activeCategories}` : '';
+  let category = activeCategories > 0 ? `category=${activeCategories}` : '';
+  let search = searchValue ? `&search=${searchValue}` : '';
 
   useEffect(() => {
-    fetch(`https://63472e200484786c6e7c8b0f.mockapi.io/pizzas?${category}&sortBy=${sortBy}&order=${order}`)
+    fetch(`https://63472e200484786c6e7c8b0f.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
       .then((res) => {
         return res.json();
       })
@@ -29,16 +31,31 @@ function Home() {
         setLoaded(false);
       });
     window.scrollTo(0, 0);
-  }, [activeCategories, selectName]);
+  }, [activeCategories, selectName, searchValue, currentPage]);
+
+
+  const skeleton = [...new Array(6)].map((_, index) => <SkeletonPizza key={index} />);
+  const pizzas =  items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories onClickCategories={(i) => {setActiveCategories(i)}} activeCategories={activeCategories} />
-        <Sort onClickSort={(i) => {setSelectName(i)}} activeSort={selectName}/>
+        <Categories
+          onClickCategories={(i) => {
+            setActiveCategories(i);
+          }}
+          activeCategories={activeCategories}
+        />
+        <Sort
+          onClickSort={(i) => {
+            setSelectName(i);
+          }}
+          activeSort={selectName}
+        />
       </div>
       <h2 className="content__title">Всі піцци</h2>
-      <div className="content__items">{loaded ? [...new Array(6)].map((_, index) => <SkeletonPizza key={index} />) : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}</div>
+      <div className="content__items">{loaded ? skeleton : pizzas}</div>
+      <Pagination onChangePage={(number) => setCurrentPage(number + 1)} />
     </div>
   );
 }

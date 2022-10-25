@@ -1,16 +1,20 @@
 import { Link } from 'react-router-dom';
+import Search from './Search/Search';
 
-function Header() {
+function Header({ searchValue, setSearchValue }) {
   return (
     <div className="header">
       <div className="container">
-        <Link to="/" className="header__logo">
-          <img width="38" src="./img/pizza-logo.svg" alt="Pizza logo" />
-          <div>
-            <h1>React Pizza</h1>
-            <p>найсмачніша піца у всесвіті</p>
-          </div>
-        </Link>
+        <div className="header__wrapper">
+          <Link to="/" className="header__logo">
+            <img width="38" src="./img/pizza-logo.svg" alt="Pizza logo" />
+            <div>
+              <h1>React Pizza</h1>
+              <p>найсмачніша піца у всесвіті</p>
+            </div>
+          </Link>
+          <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+        </div>
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>520 ₴</span>

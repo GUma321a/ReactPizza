@@ -1,0 +1,38 @@
+.root{
+  margin-left: 25px;
+  font-size: 20px;
+  position: relative;
+  &::before {
+    position: absolute;
+    content: '';
+    width: 35px;
+    height: 35px;
+    background-image: url(../../../public/img/search-icon.svg);
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+}
+
+.search{
+  color: black;
+  border-color: #fe5f1e;
+  border-radius: 10px;
+  padding: 10px 12px;
+  padding-left: 45px;
+
+  &__close{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.2;
+
+    &:hover{
+      opacity: 0.8;
+    }
+  }
+}
