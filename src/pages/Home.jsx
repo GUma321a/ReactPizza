@@ -1,4 +1,7 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../redux/slice/sliceFilter';
+
 
 import Sort from '../Components/Sort';
 import Categories from '../Components/Categories';
@@ -8,11 +11,16 @@ import Pagination from '../Components/Pagination/Pagination';
 import { SearchValue } from '../App';
 
 function Home() {
+  const categoryId = useSelector((state) => state.filter.categoryId);
+  const dispatch = useDispatch();
+
+  const setActiveCategories = () => {};
+
   const { searchValue} = React.useContext(SearchValue);
 
   let [items, setItems] = React.useState([]);
   let [loaded, setLoaded] = React.useState(true);
-  let [activeCategories, setActiveCategories] = React.useState(0);
+  // let [activeCategories, setActiveCategories] = React.useState(0);
   let [currentPage, setCurrentPage] = React.useState(1);
   let [selectName, setSelectName] = React.useState({
     name: 'популярності',
@@ -21,7 +29,7 @@ function Home() {
 
   let sortBy = selectName.sortProperty.replace('-', '');
   let order = selectName.sortProperty.includes('-') ? 'desc' : 'asc';
-  let category = activeCategories > 0 ? `category=${activeCategories}` : '';
+  let category = categoryId > 0 ? `category=${categoryId}` : '';
   let search = searchValue ? `&search=${searchValue}` : '';
 
   React.useEffect(() => {
@@ -34,7 +42,7 @@ function Home() {
         setLoaded(false);
       });
     window.scrollTo(0, 0);
-  }, [activeCategories, selectName, searchValue, currentPage]);
+  }, [categoryId, selectName, searchValue, currentPage]);
 
 
   const skeleton = [...new Array(6)].map((_, index) => <SkeletonPizza key={index} />);
@@ -44,10 +52,10 @@ function Home() {
     <div className="container">
       <div className="content__top">
         <Categories
-          onClickCategories={(i) => {
-            setActiveCategories(i);
+          onClickCategories={(id) => {
+            dispatch(setCategoryId(id));
           }}
-          activeCategories={activeCategories}
+          activeCategories={categoryId}
         />
         <Sort
           onClickSort={(i) => {
