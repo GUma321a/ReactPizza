@@ -11,24 +11,17 @@ import Pagination from '../Components/Pagination/Pagination';
 import { SearchValue } from '../App';
 
 function Home() {
-  const categoryId = useSelector((state) => state.filter.categoryId);
+  const {categoryId, sort} = useSelector((state) => state.filter);
   const dispatch = useDispatch();
-
-  const setActiveCategories = () => {};
 
   const { searchValue} = React.useContext(SearchValue);
 
   let [items, setItems] = React.useState([]);
   let [loaded, setLoaded] = React.useState(true);
-  // let [activeCategories, setActiveCategories] = React.useState(0);
   let [currentPage, setCurrentPage] = React.useState(1);
-  let [selectName, setSelectName] = React.useState({
-    name: 'популярності',
-    sortProperty: 'rating',
-  });
 
-  let sortBy = selectName.sortProperty.replace('-', '');
-  let order = selectName.sortProperty.includes('-') ? 'desc' : 'asc';
+  let sortBy = sort.sortProperty.replace('-', '');
+  let order = sort.sortProperty.includes('-') ? 'desc' : 'asc';
   let category = categoryId > 0 ? `category=${categoryId}` : '';
   let search = searchValue ? `&search=${searchValue}` : '';
 
@@ -42,7 +35,7 @@ function Home() {
         setLoaded(false);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, selectName, searchValue, currentPage]);
+  }, [categoryId, sort, searchValue, currentPage]);
 
 
   const skeleton = [...new Array(6)].map((_, index) => <SkeletonPizza key={index} />);
@@ -57,12 +50,7 @@ function Home() {
           }}
           activeCategories={categoryId}
         />
-        <Sort
-          onClickSort={(i) => {
-            setSelectName(i);
-          }}
-          activeSort={selectName}
-        />
+        <Sort />
       </div>
       <h2 className="content__title">Всі піцци</h2>
       <div className="content__items">{loaded ? skeleton : pizzas}</div>
