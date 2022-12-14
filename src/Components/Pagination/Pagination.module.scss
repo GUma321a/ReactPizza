@@ -7,14 +7,14 @@
       justify-content: center;
       font-size: 18px;
       border: 1px solid #fe5f1e;
-      color: #fe5f1e;
+      color: #fe5f1e !important;
       border-radius: 18px;
       padding: 5px;
       width: 35px;
       height: 35px;
 
       &:hover{
-        color: white;
+        color: white !important;
         background: #fe5f1e;
       }
     }
@@ -27,7 +27,7 @@
   :global{
     .selected {
         a {
-          color: white;
+          color: white !important;
           background: #fe5f1e;
         }
       }
